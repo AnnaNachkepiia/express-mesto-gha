@@ -67,13 +67,13 @@ module.exports.likeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "NoValidId") {
-        res
-          .status(404)
-          .send({ message: "Передан несуществующий _id карточки" });
-      } else if (err.name === "CastError") {
         res.status(400).send({
           message: "Переданы некорректные данные для постановки лайка",
         });
+      } else if (err.name === "CastError") {
+        res
+          .status(404)
+          .send({ message: "Передан несуществующий _id карточки" });
       } else {
         res.status(500).send({ message: "Произошла ошибка" });
       }
@@ -112,13 +112,13 @@ module.exports.deleteLike = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "NoValidId") {
-        res
-          .status(404)
-          .send({ message: "Передан несуществующий _id карточки" });
-      } else if (err.name === "CastError") {
         res.status(400).send({
           message: "Переданы некорректные данные для снятия лайка",
         });
+      } else if (err.name === "CastError") {
+        res
+          .status(404)
+          .send({ message: "Передан несуществующий _id карточки" });
       } else {
         res.status(500).send({ message: "Произошла ошибка" });
       }
