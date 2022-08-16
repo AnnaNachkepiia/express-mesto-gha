@@ -25,7 +25,15 @@ module.exports.getUserById = (req, res) => {
         res.status(200).send(user);
       }
     })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch((err) => {
+      if (err.name === "CastError") {
+        res
+          .status(400)
+          .send({ message: "Переданы некорректные данные пользователя" });
+      } else {
+        res.status(500).send({ message: "Произошла ошибка" });
+      }
+    });
 };
 
 module.exports.createUser = (req, res) => {
@@ -44,8 +52,11 @@ module.exports.createUser = (req, res) => {
 };
 
 module.exports.updateProfile = (req, res) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about })
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name: req.body.name, about: req.body.about },
+    { new: true, runValidators: true }
+  )
     .then((user) => {
       if (user === null) {
         res
@@ -67,8 +78,11 @@ module.exports.updateProfile = (req, res) => {
 };
 
 module.exports.updateAvatar = (req, res) => {
-  const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar })
+  User.findByIdAndUpdate(
+    req.user._id,
+    { avatar: req.body.avatar },
+    { new: true, runValidators: true }
+  )
     .then((userAvatar) => {
       if (userAvatar === null) {
         res
