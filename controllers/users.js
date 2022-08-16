@@ -63,7 +63,7 @@ module.exports.updateProfile = (req, res) => {
           .status(404)
           .send({ message: "Пользователь с указанным _id не найден" });
       } else {
-        res.status(201).send({ user });
+        res.status(200).send({ user });
       }
     })
     .catch(() => {
@@ -89,7 +89,7 @@ module.exports.updateAvatar = (req, res) => {
           .status(404)
           .send({ message: "Пользователь с указанным _id не найден" });
       } else {
-        res.status(201).send({ userAvatar });
+        res.status(200).send({ userAvatar });
       }
     })
     .catch(() => {
