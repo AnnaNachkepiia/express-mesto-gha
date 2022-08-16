@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon ./app.js",
-    "lint": "npx eslint .",
-    "test": "echo \"Error: no test specified\" && ezxit 1"
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
