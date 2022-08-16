@@ -3,7 +3,15 @@ const User = require("../models/user");
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        res.status(400).send({
+          message: "Переданы некорректные данные при создании пользователя",
+        });
+      } else {
+        res.status(500).send({ message: "Произошла ошибка" });
+      }
+    });
 };
 
 module.exports.getUserById = (req, res) => {
@@ -43,8 +51,7 @@ module.exports.updateProfile = (req, res) => {
         res
           .status(404)
           .send({ message: "Пользователь с указанным _id не найден" });
-      }
-      {
+      } else {
         res.status(201).send({ user });
       }
     })
@@ -68,7 +75,7 @@ module.exports.updateAvatar = (req, res) => {
           .status(404)
           .send({ message: "Пользователь с указанным _id не найден" });
       } else {
-        res.status(201).send({ user });
+        res.status(201).send({ userAvatar });
       }
     })
     .catch(() => {
