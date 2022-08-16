@@ -66,7 +66,7 @@ module.exports.updateProfile = (req, res) => {
         res.status(200).send({ user });
       }
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send({
           message: " Переданы некорректные данные при обновлении профиля",
@@ -92,7 +92,7 @@ module.exports.updateAvatar = (req, res) => {
         res.status(200).send({ userAvatar });
       }
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send({
           message: " Переданы некорректные данные при обновлении аватара",
