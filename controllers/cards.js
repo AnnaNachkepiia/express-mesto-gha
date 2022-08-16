@@ -7,7 +7,7 @@ module.exports.getCard = (req, res) => {
 };
 
 module.exports.deleteCardbyId = (req, res) => {
-  Card.findByIdAndRemove(req.params.userId)
+  Card.findByIdAndRemove(req.params.cardId)
 
     .then((card) => {
       if (!card) {
