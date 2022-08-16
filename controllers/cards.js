@@ -11,10 +11,10 @@ module.exports.deleteCardbyId = (req, res) => {
     .then((card) => {
       if (card === null) {
         res
-          .status(404)
+          .status(400)
           .send({ message: "Карточка с указанным _id не найдена" });
-      } else {
-        res.send({ data: card });
+      }else {
+        res.status(200).send(card);
       }
     })
     .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
@@ -22,8 +22,9 @@ module.exports.deleteCardbyId = (req, res) => {
 
 module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
-  Card.create({ name, link })
-    .then((card) => res.status(201).send({ card }))
+  const author = req.user._id;
+  Card.create({ name, link, author })
+    .then((card) => res.status(20).send(card))
     .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send({
@@ -47,7 +48,7 @@ module.exports.likeCard = (req, res) => {
           .status(404)
           .send({ message: "Передан несуществующий _id карточки" });
       } else {
-        res.send({ data: card });
+        res.status(200).send(card);
       }
     })
     .catch((err) => {
@@ -73,7 +74,7 @@ module.exports.deleteLike = (req, res) => {
           .status(404)
           .send({ message: "Передан несуществующий _id карточки" });
       } else {
-        res.send({ data: card });
+        res.status(200).send(card);
       }
     })
     .catch((err) => {
