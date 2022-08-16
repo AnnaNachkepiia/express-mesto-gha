@@ -8,6 +8,7 @@ module.exports.getCard = (req, res) => {
 
 module.exports.deleteCardbyId = (req, res) => {
   Card.findByIdAndRemove(req.params.userId)
+    .populate(owner)
     .then((card) => {
       if (card === null) {
         res
@@ -21,9 +22,9 @@ module.exports.deleteCardbyId = (req, res) => {
 };
 
 module.exports.createCard = (req, res) => {
-  const { name, link } = req.body;
-  const author = req.user._id;
-  Card.create({ name, link, author })
+  const { name, link, likes, createdAt } = req.body;
+  const owner = req.user._id;
+  Card.create({ name, link, owner, likes, createdAt })
     .then((card) => res.status(200).send({ card }))
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -42,6 +43,7 @@ module.exports.likeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
     { new: true }
   )
+    .populate(owner)
     .then((card) => {
       if (card === null) {
         res
@@ -68,6 +70,7 @@ module.exports.deleteLike = (req, res) => {
     { $pull: { likes: req.user._id } }, // убрать _id из массива
     { new: true }
   )
+    .populate(owner)
     .then((card) => {
       if (card === null) {
         res
