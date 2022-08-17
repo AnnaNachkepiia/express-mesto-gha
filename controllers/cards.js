@@ -29,24 +29,6 @@ module.exports.deleteCardbyId = (req, res) => {
     });
 };
 
-// .orFail(new Error("NoValidId"))
-//     .then((card) => {
-//       res.status(200).send({ card });
-//     })
-//     .catch((err) => {
-//       if (err.name === "NoValidId") {
-//         res
-//           .status(404)
-//           .send({ message: "Карточка с указанным _id не найдена" });
-//       } else if (err.name === "ValidationError") {
-//         res.status(400).send({
-//           message: "Запрашиваемая карточка не найдена",
-//         });
-//       } else {
-//         res.status(500).send({ message: "Произошла ошибка" });
-//       }
-//     });
-
 module.exports.createCard = (req, res) => {
   const { name, link, likes, createdAt } = req.body;
   const owner = req.user._id;
@@ -88,23 +70,6 @@ module.exports.likeCard = (req, res) => {
       }
     });
 };
-// .orFail(new Error("NoValidId"))
-// .then((card) => {
-//   res.status(200).send({ card });
-// })
-// .catch((err) => {
-//   if (err.name === "NoValidId") {
-//     return res
-//       .status(404)
-//       .send({ message: "Передан несуществующий _id карточки" });
-//   } if (err.name === "CastError") {
-//     return res.status(400).send({
-//       message: "Переданы некорректные данные для постановки лайка",
-//     });
-//   } else {
-//     res.status(500).send({ message: "Произошла ошибка" });
-//   }
-// });
 
 module.exports.deleteLike = (req, res) => {
   Card.findByIdAndUpdate(
@@ -131,20 +96,3 @@ module.exports.deleteLike = (req, res) => {
       }
     });
 };
-// .orFail(new Error("NoValidId"))
-//     .then((card) => {
-//       res.status(200).send({ card });
-//     })
-//     .catch((err) => {
-//       if (err.name === "NoValidId") {
-//         res
-//           .status(404)
-//           .send({ message: "Передан несуществующий _id карточки" });
-//       } else if (err.name === "CastError") {
-//         res.status(400).send({
-//           message: "Переданы некорректные данные для снятия лайка",
-//         });
-//       } else {
-//         res.status(500).send({ message: "Произошла ошибка" });
-//       }
-//     });

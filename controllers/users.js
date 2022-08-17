@@ -17,7 +17,7 @@ module.exports.getUsers = (req, res) => {
 module.exports.getUserById = (req, res) => {
   User.findById(req.params.userId)
     .then((user) => {
-      if (user === null) {
+      if (!user) {
         res
           .status(404)
           .send({ message: "Запрашиваемый пользователь не найден" });
@@ -58,7 +58,7 @@ module.exports.updateProfile = (req, res) => {
     { new: true, runValidators: true }
   )
     .then((user) => {
-      if (user === null) {
+      if (!user) {
         res
           .status(404)
           .send({ message: "Пользователь с указанным _id не найден" });
@@ -84,7 +84,7 @@ module.exports.updateAvatar = (req, res) => {
     { new: true, runValidators: true }
   )
     .then((userAvatar) => {
-      if (userAvatar === null) {
+      if (!userAvatar) {
         res
           .status(404)
           .send({ message: "Пользователь с указанным _id не найден" });
