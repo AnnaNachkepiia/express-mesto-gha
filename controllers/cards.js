@@ -14,15 +14,19 @@ module.exports.deleteCardbyId = (req, res) => {
         res
           .status(404)
           .send({ message: "Карточка с указанным _id не найдена" });
-      } else if (err.name === "ValidationError") {
+      } else {
+        res.status(200).send(card);
+      }
+    })
+    .catch(() => {
+      if (err.name === "ValidationError") {
         res.status(400).send({
           message: "Запрашиваемая карточка не найдена",
         });
       } else {
-        res.status(200).send({ card });
+        res.status(500).send({ message: "Произошла ошибка" });
       }
-    })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    });
 };
 
 // .orFail(new Error("NoValidId"))
