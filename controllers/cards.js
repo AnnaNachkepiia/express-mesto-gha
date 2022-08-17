@@ -19,7 +19,7 @@ module.exports.deleteCardbyId = (req, res) => {
       }
     })
     .catch(() => {
-      if (err.name === "ValidationError") {
+      if (err.name === "CastError") {
         res.status(400).send({
           message: "Запрашиваемая карточка не найдена",
         });
