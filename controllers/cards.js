@@ -18,7 +18,7 @@ module.exports.deleteCardbyId = (req, res) => {
         res.status(200).send(card);
       }
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === "CastError") {
         res.status(400).send({
           message: "Запрашиваемая карточка не найдена",
