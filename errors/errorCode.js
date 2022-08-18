@@ -4,4 +4,4 @@ const ERROR_CODE = {
   INTERNAL_ERROR: 500,
 };
 
-module.exports = ERROR_CODE
+module.exports = ERROR_CODE;

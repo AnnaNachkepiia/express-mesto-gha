@@ -1,6 +1,9 @@
 const Card = require("../models/card");
-const {  BAD_REQUEST, NOT_FOUND, INTERNAL_ERROR} = require('../errors/errorCode')
-
+const {
+  BAD_REQUEST,
+  NOT_FOUND,
+  INTERNAL_ERROR,
+} = require("../errors/errorCode");
 
 module.exports.getCard = (req, res) => {
   Card.find({})
@@ -36,7 +39,11 @@ module.exports.createCard = (req, res) => {
   } = req.body;
   const owner = req.user._id;
   Card.create({
-    name, link, owner, likes, createdAt,
+    name,
+    link,
+    owner,
+    likes,
+    createdAt,
   })
     .then((card) => res.status(200).send({ card }))
     .catch((err) => {
