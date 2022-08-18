@@ -21,11 +21,9 @@ app.use((req, res, next) => {
 
 app.use("/", usersRouter);
 app.use("/", cardsRouter);
-// app.use(express.static(path.join(__dirname, "public")));
 app.use("/*", (req, res) => {
   res.status(404).send({ message: "Произошла ошибка" });
 });
 
 app.listen(PORT, () => {
-  console.log(`App lissten on port ${PORT}`);
 });
