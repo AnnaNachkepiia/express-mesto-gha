@@ -15,6 +15,14 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {});
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  req.user = {
+    _id: "62f890bce9346ba0ccbc489d", // вставьте сюда _id созданного в предыдущем пункте пользователя
+  };
+
+  next();
+});
+
 app.post(
   "/signup",
   celebrate({
@@ -23,14 +31,14 @@ app.post(
         name: Joi.string().min(2).max(30),
         about: Joi.string().min(2).max(30),
         avatar: Joi.string().regex(
-          /https?:\/\/(www\.)?([-a-zA-Z0-9()@:%_+.~#?&//=]*)/,
+          /https?:\/\/(www\.)?([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
         ),
         email: Joi.string().required().email(),
         password: Joi.string().required().min(8),
       })
       .unknown(true),
   }),
-  createUser,
+  createUser
 );
 app.post(
   "/signin",
@@ -40,7 +48,7 @@ app.post(
       password: Joi.string().required().min(8),
     }),
   }),
-  login,
+  login
 );
 
 app.use(auth);
