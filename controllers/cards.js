@@ -1,42 +1,37 @@
 const Card = require("../models/card");
 const {
-  BAD_REQUEST,
-  NOT_FOUND,
-  INTERNAL_ERROR,
-} = require("../errors/errorCode");
+  BadRequest,
+  NotFound,
+} = require("../errors/errorName");
 
-module.exports.getCard = (req, res) => {
+module.exports.getCard = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch(() =>
-      res.status(INTERNAL_ERROR).send({ message: "Произошла ошибка" })
-    );
+    .catch(next);
 };
 
-module.exports.deleteCardbyId = (req, res) => {
+module.exports.deleteCardbyId = (req, res, next) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
-        res
-          .status(NOT_FOUND)
-          .send({ message: "Карточка с указанным _id не найдена" });
+        throw new NotFound("Карточка с указанным _id не найдена");
       } else {
         res.status(200).send(card);
       }
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(BAD_REQUEST).send({
-          message: "Запрашиваемая карточка не найдена",
-        });
-      } else {
-        res.status(INTERNAL_ERROR).send({ message: "Произошла ошибка" });
+        next(new BadRequest("Запрашиваемая карточка не найдена"));
+        return;
       }
+      next(err);
     });
 };
 
-module.exports.createCard = (req, res) => {
-  const { name, link, likes, createdAt } = req.body;
+module.exports.createCard = (req, res, next) => {
+  const {
+    name, link, likes, createdAt,
+  } = req.body;
   const owner = req.user._id;
   Card.create({
     name,
@@ -48,63 +43,56 @@ module.exports.createCard = (req, res) => {
     .then((card) => res.status(200).send({ card }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(BAD_REQUEST).send({
-          message: "Переданы некорректные данные при создании карточки",
-        });
-      } else {
-        res.status(INTERNAL_ERROR).send({ message: "Произошла ошибка" });
+        next(
+          new BadRequest("Переданы некорректные данные при создании карточки"),
+        );
+        return;
       }
+      next(err);
     });
 };
 
-module.exports.likeCard = (req, res) => {
+module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (!card) {
-        res
-          .status(NOT_FOUND)
-          .send({ message: "Передан несуществующий _id карточки" });
+        throw new NotFound("Передан несуществующий _id карточки");
       } else {
         res.status(200).send({ card });
       }
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(BAD_REQUEST).send({
-          message: "Переданы некорректные данные для постановки лайка",
-        });
-      } else {
-        res.status(INTERNAL_ERROR).send({ message: "Произошла ошибка" });
+        next(
+          new BadRequest("Переданы некорректные данные для постановки лайка"),
+        );
       }
+      next(err);
     });
 };
 
-module.exports.deleteLike = (req, res) => {
+module.exports.deleteLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // убрать _id из массива
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (!card) {
-        res
-          .status(NOT_FOUND)
-          .send({ message: "Передан несуществующий _id карточки" });
+        throw new NotFound("Передан несуществующий _id карточки");
       } else {
         res.status(200).send({ card });
       }
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(BAD_REQUEST).send({
-          message: "Переданы некорректные данные для снятия лайка",
-        });
-      } else {
-        res.status(INTERNAL_ERROR).send({ message: "Произошла ошибка" });
+        next(new BadRequest("Переданы некорректные данные для снятия лайка"));
+        return;
       }
+      next(err);
     });
 };
