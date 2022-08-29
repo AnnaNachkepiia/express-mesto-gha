@@ -15,14 +15,6 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {});
 
 app.use(express.json());
 
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: "62f890bce9346ba0ccbc489d",
-//   };
-
-//   next();
-// });
-
 app.post(
   "/signup",
   celebrate({
@@ -60,14 +52,24 @@ app.use("/*", (req, res, next) => {
 });
 
 app.use(errors());
-app.use((err, req, res) => {
-  // если у ошибки нет статуса, выставляем 500
-  const { statusCode = 500, message } = err;
 
-  res.status(statusCode).send({
-    // проверяем статус и выставляем сообщение в зависимости от него
-    message: statusCode === 500 ? "На сервере произошла ошибка" : message,
-  });
+app.use((err, req, res, next) => {
+  if (err.statusCode) {
+    res.status(err.statusCode).send({ message: err.message });
+  } else {
+    res.status(500).send({ message: "На сервере произошла ошибка" });
+  }
+  next();
 });
+
+// app.use((err, req, res) => {
+//   // если у ошибки нет статуса, выставляем 500
+//   const { statusCode = 500, message } = err;
+
+//   res.status(statusCode).send({
+//     // проверяем статус и выставляем сообщение в зависимости от него
+//     message: statusCode === 500 ? "На сервере произошла ошибка" : message,
+//   });
+// });
 
 app.listen(PORT, () => {});

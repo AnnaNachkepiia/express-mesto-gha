@@ -4,7 +4,7 @@ const User = require("../models/user");
 const {
   BadRequest,
   NotFound,
-  // Unauthorized,
+  Unauthorized,
   Conflict,
 } = require("../errors/errorName");
 
@@ -18,10 +18,9 @@ const login = (req, res, next) => {
       });
       res.send({ token });
     })
-    .catch(next);
-  // .catch(() => {
-  //   next(new Unauthorized("Неправильные почта или пароль"));
-  // });
+    .catch(() => {
+      next(new Unauthorized("Неправильные почта или пароль"));
+    });
 };
 
 const getUsers = (req, res, next) => {
@@ -77,7 +76,11 @@ const createUser = (req, res, next) => {
     .hash(req.body.password, 10)
     .then((hash) => {
       User.create({
-        name, about, avatar, email, password: hash,
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
       });
     })
     .then((user) => res.status(201).send({ user }))
