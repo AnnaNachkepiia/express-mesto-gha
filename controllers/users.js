@@ -18,9 +18,10 @@ const login = (req, res, next) => {
       });
       res.send({ token });
     })
-    .catch(() => {
-      next(new Unauthorized("Неправильные почта или пароль"));
-    });
+    .catch(next);
+    // .catch(() => {
+    //   next(new Unauthorized("Неправильные почта или пароль"));
+    // });
 };
 
 const getUsers = (req, res, next) => {
