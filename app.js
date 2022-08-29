@@ -15,13 +15,13 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {});
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "62f890bce9346ba0ccbc489d", // вставьте сюда _id созданного в предыдущем пункте пользователя
-  };
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: "62f890bce9346ba0ccbc489d",
+//   };
 
-  next();
-});
+//   next();
+// });
 
 app.post(
   "/signup",
