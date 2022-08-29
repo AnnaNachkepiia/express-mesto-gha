@@ -4,7 +4,7 @@ const User = require("../models/user");
 const {
   BadRequest,
   NotFound,
-  Unauthorized,
+  // Unauthorized,
   Conflict,
 } = require("../errors/errorName");
 
