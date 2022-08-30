@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { celebrate, Joi, errors } = require("celebrate");
+const { errors, celebrate, Joi } = require("celebrate");
 const usersRouter = require("./routes/users");
 const cardsRouter = require("./routes/cards");
 const auth = require("./middlewares/auth");
@@ -18,17 +18,15 @@ app.use(express.json());
 app.post(
   "/signup",
   celebrate({
-    body: Joi.object()
-      .keys({
-        name: Joi.string().min(2).max(30),
-        about: Joi.string().min(2).max(30),
-        avatar: Joi.string().regex(
-          /https?:\/\/(www\.)?([-a-zA-Z0-9()@:%_+.~#?&//=]*)/,
-        ),
-        email: Joi.string().required().email(),
-        password: Joi.string().required().min(8),
-      })
-      .unknown(true),
+    body: Joi.object().keys({
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(30),
+      avatar: Joi.string().regex(
+        /https?:\/\/(www\.)?([-a-zA-Z0-9()@:%_+.~#?&//=]*)/,
+      ),
+      email: Joi.string().required().email(),
+      password: Joi.string().required().min(8),
+    }),
   }),
   createUser,
 );
@@ -61,15 +59,5 @@ app.use((err, req, res, next) => {
   }
   next();
 });
-
-// app.use((err, req, res) => {
-//   // если у ошибки нет статуса, выставляем 500
-//   const { statusCode = 500, message } = err;
-
-//   res.status(statusCode).send({
-//     // проверяем статус и выставляем сообщение в зависимости от него
-//     message: statusCode === 500 ? "На сервере произошла ошибка" : message,
-//   });
-// });
 
 app.listen(PORT, () => {});
