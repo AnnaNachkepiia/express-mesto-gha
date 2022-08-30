@@ -30,8 +30,8 @@ const getUsers = (req, res, next) => {
       if (err.name === "ValidationError") {
         next(
           new BadRequest(
-            "Переданы некорректные данные при создании пользователя"
-          )
+            "Переданы некорректные данные при создании пользователя",
+          ),
         );
       }
       next(err);
@@ -69,33 +69,31 @@ const getUserInfo = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-    )
-    .then((user) =>
-      res.status(200).send({
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-        _id: user._id,
-      })
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
+    .then((user) => res.status(200).send({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+      _id: user._id,
+    }))
     .catch((err) => {
       if (err.name === "ValidationError") {
         next(
           new BadRequest(
-            "Переданы некорректные данные при создании пользователя"
-          )
+            "Переданы некорректные данные при создании пользователя",
+          ),
         );
         return;
       }
@@ -113,7 +111,7 @@ const updateProfile = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name: req.body.name, about: req.body.about },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       if (!user) {
@@ -125,7 +123,7 @@ const updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === "ValidationError") {
         next(
-          new BadRequest("Переданы некорректные данные при обновлении профиля")
+          new BadRequest("Переданы некорректные данные при обновлении профиля"),
         );
         return;
       }
@@ -137,7 +135,7 @@ const updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar: req.body.avatar },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((userAvatar) => {
       if (!userAvatar) {
@@ -149,7 +147,7 @@ const updateAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === "ValidationError") {
         next(
-          new BadRequest("Переданы некорректные данные при обновлении аватара")
+          new BadRequest("Переданы некорректные данные при обновлении аватара"),
         );
       }
       next(err);
