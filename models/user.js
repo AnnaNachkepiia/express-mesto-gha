@@ -44,14 +44,14 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     .then(async (user) => {
       if (!user) {
         return Promise.reject(
-          new Unauthorized("Неправильные почта или пароль")
+          new Unauthorized("Неправильные почта или пароль"),
         );
       }
 
       const matched = await bcrypt.compare(password, user.password);
       if (!matched) {
         return Promise.reject(
-          new Unauthorized("Неправильные почта или пароль")
+          new Unauthorized("Неправильные почта или пароль"),
         );
       }
       return user;
