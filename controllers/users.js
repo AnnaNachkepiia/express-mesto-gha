@@ -44,7 +44,7 @@ const getUserById = (req, res, next) => {
       if (!user) {
         throw new NotFound("Запрашиваемый пользователь не найден");
       } else {
-        res.status(200).send(user);
+        res.status(200).send({ user });
       }
     })
     .catch((err) => {
@@ -62,7 +62,7 @@ const getUserInfo = (req, res, next) => {
       if (!user) {
         throw new NotFound("Запрашиваемый пользователь не найден");
       } else {
-        res.status(200).send(user);
+        res.status(200).send({ user });
       }
     })
     .catch(next);
