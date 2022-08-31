@@ -65,7 +65,6 @@ const getUserInfo = (req, res, next) => {
         res.status(200).send(user);
       }
     })
-    // .catch(err => res.send(err.message))
     .catch(next);
 };
 
