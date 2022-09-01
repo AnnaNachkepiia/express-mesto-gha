@@ -125,7 +125,7 @@ const updateProfile = (req, res, next) => {
         next(
           new BadRequest("Переданы некорректные данные при обновлении профиля"),
         );
-        return;
+        // return;
       }
       next(err);
     });
