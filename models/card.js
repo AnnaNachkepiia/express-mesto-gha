@@ -21,7 +21,7 @@ const cardSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     default: [],
     ref: "user",
-    validate: validator.isURL,
+    validate: { validator: validator.isURL },
   },
   createdAt: {
     type: Date,
