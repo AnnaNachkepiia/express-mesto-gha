@@ -3,7 +3,7 @@ const { BadRequest, NotFound, Forbidden } = require("../errors/errorName");
 
 module.exports.getCard = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send({ cards }))
     .catch(next);
 };
 
@@ -39,7 +39,7 @@ module.exports.createCard = (req, res, next) => {
     likes,
     createdAt,
   })
-    .then((card) => res.status(200).send({ card }))
+    .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === "ValidationError") {
         next(
