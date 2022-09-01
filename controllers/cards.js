@@ -8,14 +8,16 @@ module.exports.getCard = (req, res, next) => {
 };
 
 module.exports.deleteCardbyId = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
         throw new NotFound("Карточка с указанным _id не найдена");
-      } else if (card.owner.toString !== req.user._id) {
+      } else if (card.owner.toString() !== req.user._id) {
         throw new Forbidden("Эту карточку удалить невозможно");
       } else {
-        res.status(200).send({ card });
+        Card.deleteOne().then(() => {
+          res.status(200).send(card);
+        });
       }
     })
     .catch((err) => {
