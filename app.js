@@ -4,11 +4,6 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 const errorsType = require('./middlewares/errorsType');
 const router = require('./routes');
-// const usersRouter = require("./routes/users");
-// const cardsRouter = require("./routes/cards");
-// const auth = require("./middlewares/auth");
-// const { login, createUser } = require("./controllers/users");
-// const { NotFound } = require("./errors/NotFound");
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -21,6 +16,6 @@ app.use(helmet());
 app.use(router);
 
 app.use(errors());
-app.use(errorsType());
+app.use(errorsType);
 
 app.listen(PORT, () => {});
