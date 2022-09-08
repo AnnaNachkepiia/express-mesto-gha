@@ -7,12 +7,12 @@ const errorsType = require('./middlewares/errorsType');
 const router = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 // const cors = require('./middlewares/cors');
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 
 const options = {
   origin: [
-    // 'http://localhost:3000',
+    'http://localhost:3001',
     'http://localhost:3000',
     // 'http://localhost:порт',
     // 'https://ВАШ ДОМЕЙН С ДОКУМЕНТА',
