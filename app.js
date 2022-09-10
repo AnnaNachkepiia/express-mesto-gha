@@ -11,10 +11,8 @@ const app = express();
 
 const options = {
   origin: [
-    'http://localhost:3001',
+    // 'http://localhost:3000',
     'http://nachkepiia.student.nomorepartiesxyz.ru',
-    'https://nachkepiia.student.nomorepartiesxyz.ru',
-    'http://nachkepiia.nomorepartiesxyz.ru',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
