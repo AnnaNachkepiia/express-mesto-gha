@@ -6,13 +6,15 @@ const cors = require('cors');
 const errorsType = require('./middlewares/errorsType');
 const router = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const { PORT = 3000 } = process.env;
 const app = express();
 
 const options = {
   origin: [
-    // 'http://localhost:3000',
+    'http://localhost:3001',
     'http://nachkepiia.student.nomorepartiesxyz.ru',
+    'https://nachkepiia.student.nomorepartiesxyz.ru',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
