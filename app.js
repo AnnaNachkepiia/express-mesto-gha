@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -22,7 +23,6 @@ const options = {
   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
 };
-
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://localhost:27017/mestodb', {});
 app.use(cors(options));
