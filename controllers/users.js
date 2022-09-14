@@ -15,7 +15,7 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
         {
           expiresIn: '7d',
         },
@@ -48,7 +48,7 @@ const getUserById = (req, res, next) => {
       if (!user) {
         throw new NotFound('Запрашиваемый пользователь не найден');
       } else {
-        res.status(200).send({ user });
+        res.send({ user });
       }
     })
     .catch((err) => {
@@ -66,7 +66,7 @@ const getUserInfo = (req, res, next) => {
       if (!user) {
         throw new NotFound('Запрашиваемый пользователь не найден');
       } else {
-        res.status(200).send(user);
+        res.send(user);
       }
     })
     .catch(next);
@@ -121,7 +121,7 @@ const updateProfile = (req, res, next) => {
       if (!user) {
         throw new NotFound('Пользователь с указанным _id не найден');
       } else {
-        res.status(200).send({ user });
+        res.send({ user });
       }
     })
     .catch((err) => {
@@ -144,7 +144,7 @@ const updateAvatar = (req, res, next) => {
       if (!userAvatar) {
         throw new NotFound('Пользователь с указанным _id не найден');
       } else {
-        res.status(200).send({ userAvatar });
+        res.send({ userAvatar });
       }
     })
     .catch((err) => {
