@@ -5,7 +5,7 @@ const Card = require('../models/card');
 
 module.exports.getCard = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send(cards))
+    .then((cards) => res.send({cards}))
     .catch(next);
 };
 
@@ -19,7 +19,7 @@ module.exports.deleteCardbyId = (req, res, next) => {
       } else {
         Card.deleteOne({ _id: req.params.cardId })
           .then(() => {
-            res.send(card);
+            res.send({card});
           })
           .catch(next);
       }
@@ -45,7 +45,7 @@ module.exports.createCard = (req, res, next) => {
     likes,
     createdAt,
   })
-    .then((card) => res.send(card))
+    .then((card) => res.send({card}))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(
@@ -67,7 +67,7 @@ module.exports.likeCard = (req, res, next) => {
       if (!card) {
         throw new NotFound('Передан несуществующий _id карточки');
       } else {
-        res.send(card);
+        res.send({card});
       }
     })
     .catch((err) => {
@@ -90,7 +90,7 @@ module.exports.deleteLike = (req, res, next) => {
       if (!card) {
         throw new NotFound('Передан несуществующий _id карточки');
       } else {
-        res.send(card);
+        res.send({card});
       }
     })
     .catch((err) => {
