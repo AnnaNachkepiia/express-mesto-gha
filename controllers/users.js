@@ -29,7 +29,7 @@ const login = (req, res, next) => {
 
 const getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(
@@ -48,7 +48,7 @@ const getUserById = (req, res, next) => {
       if (!user) {
         throw new NotFound('Запрашиваемый пользователь не найден');
       } else {
-        res.send({ user });
+        res.send(user);
       }
     })
     .catch((err) => {
