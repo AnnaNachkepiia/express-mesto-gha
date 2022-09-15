@@ -29,7 +29,7 @@ const login = (req, res, next) => {
 
 const getUsers = (req, res, next) => {
   User.find({})
-    .then((user) => res.send(user))
+    .then((users) => res.send({ data: users }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(
