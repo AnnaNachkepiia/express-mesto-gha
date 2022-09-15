@@ -14,7 +14,7 @@ const app = express();
 
 const options = {
   origin: [
-    'http://localhost:3001',
+    'https://localhost:3001',
     'http://nachkepiia.student.nomorepartiesxyz.ru',
     'https://nachkepiia.student.nomorepartiesxyz.ru',
   ],
