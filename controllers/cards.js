@@ -5,7 +5,7 @@ const Card = require('../models/card');
 
 module.exports.getCard = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send(cards))
+    .then((cards) => res.send(cards.reverse()))
     .catch(next);
 };
 
